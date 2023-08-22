@@ -64,27 +64,11 @@ editBtn.addEventListener('click', () => {
 
 const dummy = document.createElement('div');
 dummy.className = 'dummy';
-/*
-function storeColumn(column) {
-  let i = 0;
-  for (let card of column.children) {
-    if (card.className === 'card') {
-      localStorage.setItem(`card-${column.dataset.id}-${i++}`, card.firstChild.textContent)
-    }
-  }
-  localStorage.setItem(`column-${column.dataset.id}`, i);
+
+for (const column of board.children) {
+  restoreColumn(column);
 }
 
-function restoreColumn(column) {
-  let num = Number(localStorage.getItem(`column-${column.dataset.id}`) || 0);
-  for (let i = 0; i < num; i++) {
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.textContent = localStorage.getItem(`card-${column.dataset.id}-${i}`) || '';
-    column.insertBefore(card, column.lastChild);
-  }
-}
-*/
 board.addEventListener('mouseover', (e) => {
   if (draggedCard || edittedCard) {
     return;
@@ -148,8 +132,7 @@ board.addEventListener('mousemove', (e) => {
       closest.parentElement.insertBefore(dummy, closest);
       break;
     case 'card':
-      const rect = closest.getBoundingClientRect();
-      if (e.pageY < rect.y + closest.offsetHeight / 2) {
+      if (e.pageY < closest.getBoundingClientRect().y + closest.offsetHeight / 2) {
         closest.parentElement.insertBefore(dummy, closest);
       } else {
         closest.parentElement.insertBefore(dummy, closest.nextElementSibling);
@@ -180,7 +163,3 @@ board.addEventListener('click', (e) => {
     editCard(newCard);
   }
 });
-
-for (const column of board.children) {
-  restoreColumn(column);
-}

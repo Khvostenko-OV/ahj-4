@@ -1,53 +1,13 @@
-// import { storeColumn, restoreColumn } from "./storage";
+import { storeColumn, restoreColumn } from "./storage";
 
 const board = document.querySelector('.board');
 
-let closeBtnContainer;
+let btnContainer;
 let draggedCard;
 let edittedCard;
 let previousText = '';
 let deltaX = 0;
 let deltaY = 0;
-
-const closeBtn = document.createElement('div');
-closeBtn.className = 'close';
-closeBtn.textContent = '✕';
-closeBtn.addEventListener('click', () => { 
-  const column = closeBtnContainer.parentElement;
-  closeBtnContainer.remove();
-  closeBtnContainer = undefined;
-  storeColumn(column);
-});
-
-const editBtn = document.createElement('div');
-editBtn.className = 'edit';
-editBtn.textContent = '✎';
-editBtn.addEventListener('click', () => { 
-  editCard(editBtn.parentElement);
-});
-
-const dummy = document.createElement('div');
-dummy.className = 'dummy';
-
-function storeColumn(column) {
-  let i = 0;
-  for (let card of column.children) {
-    if (card.className === 'card') {
-      localStorage.setItem(`card-${column.dataset.id}-${i++}`, card.firstChild.textContent)
-    }
-  }
-  localStorage.setItem(`column-${column.dataset.id}`, i);
-}
-
-function restoreColumn(column) {
-  let num = Number(localStorage.getItem(`column-${column.dataset.id}`) || 0);
-  for (let i = 0; i < num; i++) {
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.textContent = localStorage.getItem(`card-${column.dataset.id}-${i}`) || '';
-    column.insertBefore(card, column.lastChild);
-  }
-}
 
 function editCard(card) {
   edittedCard = card;
@@ -56,7 +16,7 @@ function editCard(card) {
   } else {
     previousText = ''
   }
-  closeBtnContainer = undefined;
+  btnContainer = undefined;
   card.innerHTML = `
     <textarea class="input" rows="2" placeholder="Enter title..." >${previousText}</textarea>
     <button class="save_btn">Save</button><button class="cancel_btn">Cancel</button>
@@ -85,6 +45,46 @@ function editCard(card) {
   });
 }
 
+const closeBtn = document.createElement('div');
+closeBtn.className = 'close';
+closeBtn.textContent = '✕';
+closeBtn.addEventListener('click', () => {
+  const column = btnContainer.parentElement;
+  btnContainer.remove();
+  btnContainer = undefined;
+  storeColumn(column);
+});
+
+const editBtn = document.createElement('div');
+editBtn.className = 'edit';
+editBtn.textContent = '✎';
+editBtn.addEventListener('click', () => { 
+  editCard(editBtn.parentElement);
+});
+
+const dummy = document.createElement('div');
+dummy.className = 'dummy';
+/*
+function storeColumn(column) {
+  let i = 0;
+  for (let card of column.children) {
+    if (card.className === 'card') {
+      localStorage.setItem(`card-${column.dataset.id}-${i++}`, card.firstChild.textContent)
+    }
+  }
+  localStorage.setItem(`column-${column.dataset.id}`, i);
+}
+
+function restoreColumn(column) {
+  let num = Number(localStorage.getItem(`column-${column.dataset.id}`) || 0);
+  for (let i = 0; i < num; i++) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.textContent = localStorage.getItem(`card-${column.dataset.id}-${i}`) || '';
+    column.insertBefore(card, column.lastChild);
+  }
+}
+*/
 board.addEventListener('mouseover', (e) => {
   if (draggedCard || edittedCard) {
     return;
@@ -94,25 +94,25 @@ board.addEventListener('mouseover', (e) => {
   }
 
   if (e.target.className === 'card') { 
-    closeBtnContainer = e.target;
-    closeBtnContainer.appendChild(editBtn); 
-    closeBtnContainer.appendChild(closeBtn); 
+    btnContainer = e.target;
+    btnContainer.appendChild(editBtn); 
+    btnContainer.appendChild(closeBtn); 
     return;
   }
   
-  if (closeBtnContainer) {
-    closeBtnContainer.removeChild(editBtn);
-    closeBtnContainer.removeChild(closeBtn);
-    closeBtnContainer = undefined;
+  if (btnContainer) {
+    btnContainer.removeChild(editBtn);
+    btnContainer.removeChild(closeBtn);
+    btnContainer = undefined;
   }
 });
 
 board.addEventListener('mousedown', (e) => {
   if (e.target.className === 'card') {
-    if (closeBtnContainer) {
-      closeBtnContainer.removeChild(editBtn);
-      closeBtnContainer.removeChild(closeBtn);
-      closeBtnContainer = undefined;
+    if (btnContainer) {
+      btnContainer.removeChild(editBtn);
+      btnContainer.removeChild(closeBtn);
+      btnContainer = undefined;
     }
     draggedCard = e.target;
     const rect = draggedCard.getBoundingClientRect();
@@ -181,6 +181,6 @@ board.addEventListener('click', (e) => {
   }
 });
 
-for (let column of board.children) {
+for (const column of board.children) {
   restoreColumn(column);
 }

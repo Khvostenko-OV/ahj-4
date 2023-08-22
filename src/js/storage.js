@@ -1,6 +1,6 @@
 export function storeColumn(column) {
   let i = 0;
-  for (let card of column.children) {
+  for (const card of column.children) {
     if (card.className === 'card') {
       localStorage.setItem(`card-${column.dataset.id}-${i++}`, card.firstChild.textContent)
     }
@@ -9,7 +9,7 @@ export function storeColumn(column) {
 }
 
 export function restoreColumn(column) {
-  let num = Number(localStorage.getItem(`column-${column.dataset.id}`) || 0);
+  const num = Number(localStorage.getItem(`column-${column.dataset.id}`) || 0);
   for (let i = 0; i < num; i++) {
     const card = document.createElement('div');
     card.className = 'card';

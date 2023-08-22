@@ -1,0 +1,89 @@
+.board {
+    width: 100%;
+    display: inline-block;
+    border: 1px solid #111;
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+}
+
+.column {
+    width: 33.3%;
+    display: inline-block;
+    background: #ddf;
+    border: 2px solid white;
+    box-sizing: border-box;
+    vertical-align: top;
+}
+
+.column_header {
+    margin: 4px 1rem;
+}
+
+.card {
+    box-sizing: border-box;
+    margin: 4px .5rem;
+    border: 1px solid #111;
+    border-radius: 4px;
+    background: white;
+    padding: 2px 4px;
+    min-height: 2em;
+    position: relative;
+    overflow-wrap: break-word;
+    white-space: pre-line;
+}
+
+.input {
+    width: 99%;
+}
+
+.save_btn {
+    background: rgb(220, 245, 220);
+    padding: 2px 8px;
+    border: 1px solid #111;
+    border-radius: 2px;
+}
+
+.cancel_btn {
+    background: #ccc;
+    padding: 2px;
+    margin-left: 6px;
+    border: 1px solid #111;
+    border-radius: 2px;
+}
+
+.add_card {
+    margin: 4px 1rem;
+}
+
+.edit {
+    width: 1.2em;
+    text-align: center;
+    border: 1px solid #111;
+    border-radius: 4px;
+    background: #afa;
+    position: absolute;
+    top: 0px;
+    right: 20px;
+}
+
+.close {
+    width: 1em;
+    text-align: center;
+    border: 1px solid #111;
+    border-radius: 4px;
+    background: #faa;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+.drag {
+    background: antiquewhite;
+    position: absolute;
+    z-index: 999;
+    pointer-events: none;
+}
+
+.dummy {
+    cursor: grabbing;
+}
